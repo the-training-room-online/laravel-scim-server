@@ -21,7 +21,9 @@ class Collection extends AttributeMapping
         //only for creation requests
         if ($object->id == null) {
             foreach ($value as $key => $v) {
-                $this->getSubNode($key)->add($v, $object);
+                if ($this->getSubNode($key) != null) {
+                    $this->getSubNode($key)->add($v, $object);
+                }
             }
         } else {
             foreach ($value as $key => $v) {
@@ -81,7 +83,7 @@ class Collection extends AttributeMapping
             return $this;
         }
 
-        if (!empty($this->collection) && is_array($this->collection[0]) && array_key_exists($key, $this->collection[0])) {
+        if (!empty($this->collection) && is_array($this->collection[0]) && array_key_exists($key, $this->collection[0]) && ! is_null($this->collection[0][$key])) {
             $parent = $this;
 
             return (new CollectionValue())->setEloquentAttributes($this->collection[0][$key]->getEloquentAttributes())->setKey($key)->setParent($this)->setAdd(
