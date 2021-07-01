@@ -102,7 +102,6 @@ class ResourceController extends Controller
         }
 
         $flattened = Helper::flatten($input, $input['schemas']);
-        $flattened = self::validateScim($resourceType, $flattened, null);
 
         if (!$allowAlways && !self::isAllowed($pdp, $request, PolicyDecisionPoint::OPERATION_POST, $flattened, $resourceType, null, $isMe)) {
             throw (new SCIMException('This is not allowed'))->setCode(403);
